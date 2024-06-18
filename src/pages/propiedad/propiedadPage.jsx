@@ -24,18 +24,23 @@ function PropiedadPage() {
                 return response.json();
             })
             .then(json => {
-                const updatedData = json.data.map(item => {
-                    if (item.imagen && item.tipo_imagen) {
-                        item.imagen = item.tipo_imagen + item.imagen.split(",")[1];
-                    }
-                    return item;
-                });
 
-                setData(updatedData);
+                if (json.code === 404) {
+                    throw new Error('No hay propiedades');
+                } else {
+                    const updatedData = json.data.map(item => {
+                        if (item.imagen && item.tipo_imagen) {
+                            item.imagen = item.tipo_imagen + item.imagen.split(",")[1];
+                        }
+                        return item;
+                    });
+                    setData(updatedData);
+                    setError(null);
+                }
                 
             })
             .catch(error => {
-                setError(error);
+                setError('Error al cargar propiedades:'+ error);
             });
 
         fetch('http://localhost:80/localidades')
@@ -46,12 +51,11 @@ function PropiedadPage() {
                 return response.json();
             })
             .then(json => {
-                console.log(json.data);
                 setLocalidades(json.data);
                 setLoading(false);
             })
             .catch(error => {
-                setError(error);
+                setError('Error al cargar localidades:', error);
                 setLoading(false);
             });
     }, []);
@@ -59,21 +63,18 @@ function PropiedadPage() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-         const datosEnviar = {
+         const datosEnviar = new URLSearchParams({
             disponible: filtro.disponible,
-            localidad_id: isNaN(parseInt(filtro.localidad, 10)) ? null : parseInt(filtro.localidad, 10),
-            fecha_inicio: filtro.fechaInicio,
-            cantidad_huespedes: isNaN(parseInt(filtro.huespedes)) ? null : parseInt(filtro.huespedes)
-        };
-        console.log(datosEnviar);
-
+            localidad_id: filtro.localidad,
+            fecha_inicio_disponibilidad: filtro.fechaInicio,
+            cantidad_huespedes: filtro.huespedes
+        }).toString();
         setLoading(true);
-
+        const url = `http://localhost:80/propiedades?${datosEnviar}`;
         // Enviar los datos al servidor
-        fetch('http://localhost:80/propiedades', {
+        fetch(url, {
             method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(datosEnviar)
+            headers: {'Content-Type': 'application/json'}
         })
         .then(response => {
             if (!response.ok) {
@@ -82,19 +83,24 @@ function PropiedadPage() {
             return response.json();
         })
         .then(json => {
-            console.log(json.data);
-            const updatedData = json.data.map(item => {
-                if (item.imagen && item.tipo_imagen) {
-                    item.imagen = item.tipo_imagen + item.imagen.split(",")[1];
-                }
-                return item;
-            });
-            console.log(updatedData);
-            setData(updatedData);
+            if (json.code === 404) {
+                setData([]);
+                throw new Error('No hay propiedades');
+            } else {
+                const updatedData = json.data.map(item => {
+                    if (item.imagen && item.tipo_imagen) {
+                        item.imagen = item.tipo_imagen + item.imagen.split(",")[1];
+                    }
+                    return item;
+                });
+                setData(updatedData);
+                setError(null);
+            }
             setLoading(false);
+            
         })
         .catch(error => {
-            console.error('Error al filtrar propiedades:', error);
+            console.error('Error al filtrar propiedades:' + error);
             setError(error);
             setLoading(false);
         });
@@ -107,7 +113,34 @@ function PropiedadPage() {
             fechaInicio: '',
             huespedes: ''
         });
-        
+
+        fetch('http://localhost:80/propiedades')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('No hay respuesta del servidor' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(json => {
+
+                if (json.code === 404) {
+                    setData([]);
+                    throw new Error('No hay propiedades');
+                } else {
+                    const updatedData = json.data.map(item => {
+                        if (item.imagen && item.tipo_imagen) {
+                            item.imagen = item.tipo_imagen + item.imagen.split(",")[1];
+                        }
+                        return item;
+                    });
+                    setData(updatedData);
+                    setError(null);
+                }
+                
+            })
+            .catch(error => {
+                setError('Error al cargar propiedades:'+ error);
+            });
     };
 
     return ( 
@@ -147,7 +180,7 @@ function PropiedadPage() {
                 </form>
                 
                 {loading && <p>Cargando...</p>}
-                {error && <p>Error: {error.message}</p>}
+                {error && <p>{error.message}</p>}
 
                 <ul>
                     {data.map(item => (
