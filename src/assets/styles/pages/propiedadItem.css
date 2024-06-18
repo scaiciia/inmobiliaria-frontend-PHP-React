@@ -1,0 +1,22 @@
+.PropiedadItem {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 10px 20px 10px;
+    border: 2px black solid;
+    border-radius: 10px;
+}
+
+.PropiedadItem img {
+    height: 200px;
+    width: 200px;
+    margin: 10px 40px 10px 10px;
+    box-shadow: 5px 5px 15px 0px black;
+}
+
+.PropiedadItem span {
+    height: 25px;
+    font-size: 15px;
+    color: black;
+    font-weight: normal;
+    display: block;
+}
