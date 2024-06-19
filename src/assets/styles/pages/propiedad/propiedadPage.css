@@ -1,0 +1,23 @@
+.PropiedadItem {
+    width: 720px;
+}
+
+.listaPropiedades {
+    display: flex;
+    justify-content: center;
+}
+
+.filtrosPropiedades {
+    display: flex;
+    flex-direction: row;
+}
+
+.filtrosPropiedadesItem {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.filtrosPropiedadesButtons input {
+    margin-left: 5px;
+    margin-right: 0px;
+}

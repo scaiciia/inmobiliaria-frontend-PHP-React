@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import FooterComponent from "../../components/footerComponent";
 import HeaderComponent from "../../components/headerComponent";
 import PropiedadItem from "../../components/propiedad/propiedadItem";
+import '../../assets/styles/pages/propiedad/propiedadPage.css';
+import DetailPropiedad from "./detailPropiedad";
 
 function PropiedadPage() {
     const [filtro, setFiltro] = useState({
@@ -14,6 +16,7 @@ function PropiedadPage() {
     const [loading, setLoading] = useState(true);
     const  [error, setError] = useState(null);
     const [localidades, setLocalidades] = useState([]);
+    const [show, setShow] = useState(false);
 
     useEffect(() => {
         fetch('http://localhost:80/propiedades')
@@ -143,19 +146,37 @@ function PropiedadPage() {
             });
     };
 
+    const mostrarDetalle = (id) => {
+        console.log(id);
+        
+    }
+
+    const eliminarProp = (id) => {
+
+    }
+
+    const editarProp = (id) => {
+
+    }
+
+    const cerrarDetalles = () => {
+        setShow(false);
+    }
+
     return ( 
         <div>
             <HeaderComponent></HeaderComponent>
             <main>
                 <h1>Propiedades</h1>
-                <form onSubmit={handleSubmit}>
-                    <h3>Filtros</h3>
-                    <div>
-                        <label htmlFor="disponible">Disponible</label>
+                <h3>Filtros</h3>
+                <form className="filtrosPropiedades" onSubmit={handleSubmit}>
+                    
+                    <div className="filtrosPropiedadesItem">
+                        <label htmlFor="disponible">Disponible: </label>
                         <input type="checkbox" name="disponible" id="disponible" checked={filtro.disponible} onChange={(e) => setFiltro({...filtro, disponible: e.target.checked})}/>
                     </div>
-                    <div>
-                        <label htmlFor="localidad">Localidad</label>
+                    <div className="filtrosPropiedadesItem">
+                        <label htmlFor="localidad">Localidad: </label>
                         <select name="localidad" id="localidad" value={filtro.localidad} onChange={(e) => setFiltro({...filtro, localidad: e.target.value})}>
                             <option value="">---</option>
                             {localidades.map(localidad => (
@@ -165,28 +186,30 @@ function PropiedadPage() {
                             ))}
                         </select>
                     </div>
-                    <div>
-                        <label htmlFor="fechaInicio">Fecha de inicio</label>
+                    <div className="filtrosPropiedadesItem">
+                        <label htmlFor="fechaInicio">Fecha de inicio: </label>
                         <input type="date" name="fechaInicio" id="fechaInicio" value={filtro.fechaInicio} onChange={(e) => setFiltro({...filtro, fechaInicio: e.target.value})} />
                     </div>
-                    <div>
+                    <div className="filtrosPropiedadesItem">
                         <label htmlFor="hespedes">Cantidad de huéspedes</label>
                         <input type="number" name="hespedes" id="hespedes" value={filtro.huespedes} onChange={(e) => setFiltro({...filtro, huespedes: e.target.value})} />
                     </div>
-                    <div>
-                        <input type="submit" value="Aplicar filtros" />
+                    <div className="filtrosPropiedadesButtons">
+                        <input className="" type="submit" value="Aplicar filtros" />
                         <input type="button" value="Limpiar filtros" onClick={handleLimpiarFiltros} />
                     </div>
                 </form>
-                
-                {loading && <p>Cargando...</p>}
-                {error && <p>{error.message}</p>}
+                <div className="listaPropiedades">
+                    {loading && <p>Cargando...</p>}
+                    {error && <p>{error.message}</p>}
 
-                <ul>
-                    {data.map(item => (
-                        <PropiedadItem item={item}/>
-                    ))}
-                </ul>
+                    <ul>
+                        {data.map(item => (
+                            <PropiedadItem className='PropiedadItem' item={item} mostrarDetalle={mostrarDetalle} eliminarProp={eliminarProp} editarProp={editarProp} />
+                        ))}
+                    </ul>
+                </div>
+                <DetailPropiedad show={show} onClose={cerrarDetalles}></DetailPropiedad>
             </main>
             <FooterComponent></FooterComponent>
         </div>

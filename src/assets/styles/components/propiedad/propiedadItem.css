@@ -1,8 +1,9 @@
 .PropiedadItem {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     margin: 20px 10px 20px 10px;
-    border: 2px black solid;
+    border: 2px #1A263F solid;
     border-radius: 10px;
 }
 
@@ -19,4 +20,17 @@
     color: black;
     font-weight: normal;
     display: block;
+}
+
+.PropiedadItem .iconDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #1A263F;
+    width: 40px;
+}
+
+.PropiedadItem .icono {
+    color: white;
+    cursor: pointer;
 }
