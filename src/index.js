@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropiedadPage from './pages/propiedad/propiedadPage';
+import ReservaPage from "./pages/reserva/reservaPage"
+
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
@@ -11,6 +13,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PropiedadPage/>} />
+          <Route path="/reservas" element={<ReservaPage/>} />
         </Routes>
       </BrowserRouter>
   </React.StrictMode>
