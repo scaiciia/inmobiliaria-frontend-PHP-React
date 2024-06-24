@@ -35,6 +35,7 @@ const useReservas = () => {
       const response = await apiService.editarReserva(id, values);
       if (response.status === 'success') {
         toast.success(response.message);
+        window.location.reload()
       } else {
         toast.error(response.message || 'Error actualizando la reserva');
       }

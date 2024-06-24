@@ -41,6 +41,16 @@ const apiService = {
     }
   },
 
+  createReserva: async (data) => {
+    try {
+      const response = await apiClient.post('/reservas', data);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating reserva:', error);
+      throw error;
+    }
+  },
+
   getPropiedades: async () => {
     try {
       const response = await apiClient.get('/propiedades');

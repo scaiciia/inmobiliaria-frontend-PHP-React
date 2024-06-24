@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PropiedadPage from './pages/propiedad/propiedadPage';
 import ReservaPage from "./pages/reserva/reservaPage";
+import NuevaReserva from './pages/reserva/nuevaReserva';
 import 'react-toastify/dist/ReactToastify.css';
 
 import './index.css';
@@ -15,6 +16,7 @@ root.render(
       <Routes>
         <Route path="/" element={<PropiedadPage/>} />
         <Route path="/reservas" element={<ReservaPage/>} />
+        <Route path="/reservas/nueva" element={<NuevaReserva />} /> {/* Añade la nueva ruta */}
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

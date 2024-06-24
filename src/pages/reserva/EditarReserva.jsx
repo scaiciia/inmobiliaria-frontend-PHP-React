@@ -66,11 +66,6 @@ function EditarReserva({ reserva, propiedades, inquilinos, isOpen, onClose, onSa
                 <Field type="number" name="cantidad_noches" />
                 <ErrorMessage name="cantidad_noches" component="div" className="error" />
               </label>
-              <label>
-                Valor Total:
-                <Field type="number" name="valor_total" />
-                <ErrorMessage name="valor_total" component="div" className="error" />
-              </label>
               <div className="button-container">
                 <button type="submit" disabled={isSubmitting}>Guardar</button>
               </div>

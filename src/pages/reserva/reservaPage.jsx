@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FooterComponent from "../../components/footerComponent";
 import HeaderComponent from "../../components/headerComponent";
 import useReservas from '../../hooks/useReservas';
@@ -6,9 +7,10 @@ import ReservaItem from '../../components/reserva/reservaItem';
 import EditarReserva from './EditarReserva.jsx';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../../assets/styles/components/reserva/reservaList.css'; // Importa el nuevo archivo CSS
+import '../../assets/styles/components/reserva/reservaPage.css';
 
 function ReservaPage() {
+  const navigate = useNavigate();
   const { reservas, propiedades, inquilinos, loading, editarReserva, eliminarReserva } = useReservas();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedReserva, setSelectedReserva] = useState(null);
@@ -40,13 +42,20 @@ function ReservaPage() {
     }
   };
 
+  const handleCrearNuevaReserva = () => {
+    navigate('/reservas/nueva');
+  };
+
   if (loading) return <p>Loading...</p>;
 
   return (
     <>
       <HeaderComponent />
-      <div>
+      <div className="reserva-list-container">
         <h1>Reservas</h1>
+        <button onClick={handleCrearNuevaReserva} className="new-reserva-button">
+          Crear Nueva Reserva
+        </button>
         <ul className="reserva-list">
           {reservas.map(reserva => (
             <li key={reserva.id} className="reserva-item">
@@ -77,4 +86,3 @@ function ReservaPage() {
 }
 
 export default ReservaPage;
-
