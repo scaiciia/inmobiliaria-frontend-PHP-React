@@ -13,7 +13,6 @@ const apiService = {
   getReservas: async () => {
     try {
       const response = await apiClient.get('/reservas');
-      console.log(response.data.data);
       return response.data.data;
     } catch (error) {
       console.error('Error fetching reservas:', error);
@@ -67,6 +66,46 @@ const apiService = {
       return response.data.data;
     } catch (error) {
       console.error('Error fetching inquilinos:', error);
+      throw error;
+    }
+  },
+
+  getTiposPropiedad: async () => {
+    try {
+      const response = await apiClient.get('/tipos_propiedad');
+      return response.data.data;
+    } catch (error) {
+      console.error('Error fetching tipos de propiedad:', error);
+      throw error;
+    }
+  },
+
+  createTipoPropiedad: async (data) => {
+    try {
+      const response = await apiClient.post('/tipos_propiedad', data);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating tipo de propiedad:', error);
+      throw error;
+    }
+  },
+
+  updateTipoPropiedad: async (id, data) => {
+    try {
+      const response = await apiClient.put(`/tipos_propiedad/${id}`, data);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating tipo de propiedad:', error);
+      throw error;
+    }
+  },
+
+  deleteTipoPropiedad: async (id) => {
+    try {
+      const response = await apiClient.delete(`/tipos_propiedad/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting tipo de propiedad:', error);
       throw error;
     }
   }
