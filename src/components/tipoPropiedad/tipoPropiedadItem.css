@@ -1,0 +1,39 @@
+.TipoPropiedadItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 10px;
+    border: 2px #1A263F solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.TipoPropiedadItem .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.TipoPropiedadItem span {
+    height: 25px;
+    font-size: 15px;
+    color: black;
+    font-weight: normal;
+    display: block;
+}
+
+.TipoPropiedadItem .iconDiv {
+    background-color: #1A263F;
+    display: block;
+    width: 40px;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.TipoPropiedadItem .icono {
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+  

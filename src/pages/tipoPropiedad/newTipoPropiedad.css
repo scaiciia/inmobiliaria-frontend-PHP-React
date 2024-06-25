@@ -1,0 +1,44 @@
+.new-tipo-propiedad-container {
+    padding: 20px;
+  }
+  
+  .new-tipo-propiedad-container h1 {
+    margin-bottom: 20px;
+  }
+  
+  .new-tipo-propiedad-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .new-tipo-propiedad-container label {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .new-tipo-propiedad-container .error {
+    color: #dc3545;
+    font-size: 14px;
+  }
+  
+  .new-tipo-propiedad-container button {
+    padding: 10px 20px;
+    background-color: #1A263F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .new-tipo-propiedad-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .new-tipo-propiedad-container button:hover:not(:disabled) {
+    background-color: #0f1a30;
+    transition: background-color 0.3s ease;
+  }
+  
