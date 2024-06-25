@@ -26,4 +26,3 @@ function TipoPropiedadItem({ tipoPropiedad, editarTipoPropiedad, eliminarTipoPro
 }
 
 export default TipoPropiedadItem;
-
