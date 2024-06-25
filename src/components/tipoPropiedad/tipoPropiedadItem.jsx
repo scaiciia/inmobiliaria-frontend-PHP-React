@@ -2,18 +2,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import './tipoPropiedadItem.css';
 
-const TipoPropiedadItem = ({ tipoPropiedad, editarTipoPropiedad, eliminarTipoPropiedad }) => {
-    return (
-      <div className='tipo-propiedad-item'>
-        <div className="info">
-          <span>Nombre: {tipoPropiedad.nombre}</span>
-        </div>
-        <div className='iconDiv'>
-          <FontAwesomeIcon className='icono' icon={faPenToSquare} size='l' onClick={() => editarTipoPropiedad(tipoPropiedad)} />
-          <FontAwesomeIcon className='icono' icon={faTrashCan} size='l' onClick={() => eliminarTipoPropiedad(tipoPropiedad.id)} />
-        </div>
-      </div>
-    );
+function TipoPropiedadItem({ tipoPropiedad, editarTipoPropiedad, eliminarTipoPropiedad }) {
+
+  const handleEdit = () => {
+    editarTipoPropiedad(tipoPropiedad);
   };
 
+  const handleDelete = () => {
+    eliminarTipoPropiedad(tipoPropiedad.id);
+  };
+
+  return (
+    <div className="TipoPropiedadItem">
+      <div className="info">
+        <span><strong>Nombre:</strong> {tipoPropiedad.nombre}</span>
+      </div>
+      <div className="iconDiv">
+        <FontAwesomeIcon className="icono" icon={faPenToSquare} size="xl" onClick={handleEdit} />
+        <FontAwesomeIcon className="icono" icon={faTrashCan} size="xl" onClick={handleDelete} />
+      </div>
+    </div>
+  );
+}
+
 export default TipoPropiedadItem;
+
