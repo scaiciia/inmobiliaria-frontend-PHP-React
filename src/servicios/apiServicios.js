@@ -61,6 +61,56 @@ const apiService = {
     }
   },
 
+  deletePropiedad: async (id) => {
+    try {
+      const response = await apiClient.delete(`/propiedades/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting propiedad:', error);
+      throw error;
+    }
+  },
+
+    editarPropiedad: async (id, updatedData) => {
+    try {
+      const response = await apiClient.put(`/propiedades/${id}`, updatedData);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating propiedad:', error);
+      throw error;
+    }
+  },
+
+  createPropiedad: async (data) => {
+    try {
+      const response = await apiClient.post('/propiedades', data);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating propiedad:', error);
+      throw error;
+    }
+  },
+
+  getLocalidades: async () => {
+    try {
+      const response = await apiClient.get('/localidades');
+      return response.data.data;
+    } catch (error) {
+      console.error('Error fetching localidades:', error);
+      throw error;
+    }
+  },
+
+  getTiposPropiedad: async () => {
+    try {
+      const response = await apiClient.get('/tipos_propiedad');
+      return response.data.data;
+    } catch (error) {
+      console.error('Error fetching tipos_propiedad:', error);
+      throw error;
+    }
+  },
+
   getInquilinos: async () => {
     try {
       const response = await apiClient.get('/inquilinos');

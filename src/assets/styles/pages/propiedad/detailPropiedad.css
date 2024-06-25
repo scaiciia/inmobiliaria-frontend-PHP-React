@@ -1,0 +1,37 @@
+.DetailProp {
+    display: flex;
+    flex-direction: row;
+}
+
+.DetailProp .DetailPropImg {
+    border: 1px gray solid;
+    width: 300px;
+    height: 300px;
+    margin-right: 50px;
+    margin-left: 20px;
+    margin-top: 25px;
+}
+
+.DetailProp .separador {
+    border-left: 1px grey solid;
+    height: 80vh;
+}
+
+.fechaInicio{
+    opacity: 0;
+    visibility: hidden;
+}
+
+.DetailProp .Info {
+    display: grid;
+    margin-left: 50px;
+}
+
+.DetailProp .mostrar {
+    opacity: 1;
+    visibility: visible;
+}
+.DetailProp span {
+    color: black;
+    font-weight: normal;
+}

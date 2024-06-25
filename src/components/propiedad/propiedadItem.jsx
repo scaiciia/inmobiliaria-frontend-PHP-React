@@ -18,7 +18,7 @@ function PropiedadItem(props) {
 
     return ( 
         <div className='PropiedadItem'>
-            <img src={props.item.imagen} alt="Sin Imagen"/>
+            <img src={`${props.item.tipo_imagen},${props.item.imagen}`} alt="Sin Imagen"/>
             <div>
                 <h3>{props.item.domicilio}</h3>
                 <span><strong>Localidad:  </strong> {props.item.localidad_id.nombre}</span>
