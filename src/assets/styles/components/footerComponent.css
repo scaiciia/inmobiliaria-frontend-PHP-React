@@ -1,8 +1,8 @@
 footer {
     background-color: #1A263F;
     bottom: 0;
+    width: 100%;
     display: flex;
-    align-content: end;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -10,11 +10,12 @@ footer {
     width: 100%;
     height: 50px;
     z-index: 1;
+    padding: 10px 0;
 }
 
-span {
+footer span {
     font-size: 25px;
-    font-weight:bold;
+    font-weight: bold;
     margin-left: 10px;
     color: white;
 }

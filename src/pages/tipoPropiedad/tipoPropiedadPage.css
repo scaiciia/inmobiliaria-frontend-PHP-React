@@ -1,0 +1,93 @@
+/* Contenedor principal de la página */
+.tipo-propiedad-container {
+    padding: 20px;
+    height: 100%;
+    margin: 0 auto;
+  }
+  
+  /* Estilo para el título */
+  .tipo-propiedad-container h1 {
+    margin-bottom: 20px;
+    color: #333; /* Color del texto del título */
+    text-align: center;
+  }
+  
+  /* Botón para crear nuevo tipo de propiedad */
+  .new-tipo-propiedad-button {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    background-color: #1A263F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  .new-tipo-propiedad-button:hover {
+    background-color: #0f1a30;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Contenedor de la lista de tipos de propiedad */
+  .tipo-propiedad-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre los items */
+    padding: 0;
+    list-style-type: none;
+    justify-content: center;
+  }
+  
+  /* Estilo para cada item de tipo de propiedad */
+  .tipo-propiedad-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+  }
+  
+  .tipo-propiedad-item .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tipo-propiedad-item span {
+    color: #000; /* Color del texto */
+    margin-bottom: 8px; /* Espacio entre las líneas de texto */
+    font-size: 14px;
+  }
+  
+  /* Estilo para el contenedor de los iconos */
+  .tipo-propiedad-item .iconDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+  
+  .tipo-propiedad-item .icono {
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    background-color: #1A263F;
+    border-radius: 5px;
+    margin: 3px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tipo-propiedad-item .icono:hover {
+    background-color: #0f1a30;
+  }
+  
+  
+  
