@@ -85,7 +85,7 @@ function PropiedadPage() {
             disponible: filtro.disponible,
             localidad_id: filtro.localidad,
             fecha_inicio_disponibilidad: filtro.fechaInicio,
-            cantidad_huespedes: filtro.huespedes
+            cantidad_huespedes: parseInt(filtro.huespedes)
         }).toString();
         setLoading(true);
         const url = `http://localhost:80/propiedades?${datosEnviar}`;

@@ -1,12 +1,18 @@
 header {
     background-color: #1A263F;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1;
+}
+
+.Logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 img {
