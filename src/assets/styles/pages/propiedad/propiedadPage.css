@@ -1,3 +1,25 @@
+.main .titulo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.titulo button {
+    height: min-content;
+    margin-top: 8px;
+    margin-left: 20px;
+    color: #1A263F;
+    background-color: white;
+    border: 1px #1A263F solid;
+    border-radius: 15px;
+    box-shadow: none;
+}
+
+.titulo button:hover {
+    color: white;
+    background-color: #1A263F;
+}
+
 .PropiedadItem {
     width: 720px;
 }

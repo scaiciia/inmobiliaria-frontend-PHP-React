@@ -1,0 +1,39 @@
+.ReservaItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 10px;
+    border: 2px #1A263F solid;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.ReservaItem .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.ReservaItem span {
+    height: 25px;
+    font-size: 15px;
+    color: black;
+    font-weight: normal;
+    display: block;
+}
+
+.ReservaItem .iconDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #1A263F;
+    width: 40px;
+    border-radius: 10px;
+}
+
+.ReservaItem .icono {
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}

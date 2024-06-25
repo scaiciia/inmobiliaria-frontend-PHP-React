@@ -1,0 +1,54 @@
+.formPropiedad form {
+    display: flex;
+    flex-direction: row;
+}
+
+.formPropiedad .imagen {
+    display: flex;
+    flex-direction: column;
+}
+
+.imagen {
+    margin-right: 50px;
+    margin-left: 20px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.imagen img {
+    border: 1px gray solid;
+    width: 300px;
+    height: 300px;
+}
+
+.formPropiedad .separador {
+    border-left: 1px grey solid;
+    height: 80vh;
+}
+
+.formPropiedad .info {
+    width: 50vw;
+    display: grid;
+    margin-left: 50px;
+}
+
+.formPropiedad .botones {
+    display: flex;
+    height: min-content;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.formPropiedad .botones input {
+    margin-left: 10px;
+    color: #1A263F;
+    background-color: white;
+    border: 1px #1A263F solid;
+    border-radius: 15px;
+    box-shadow: none;
+}
+
+.formPropiedad .botones input:hover {
+    color: white;
+    background-color: #1A263F;
+}

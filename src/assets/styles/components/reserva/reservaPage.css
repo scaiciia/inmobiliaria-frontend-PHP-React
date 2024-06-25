@@ -1,0 +1,72 @@
+/* Estilo para el contenedor de la lista de reservas */
+.reserva-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+    padding: 0;
+    list-style-type: none;
+    justify-content: center;
+  }
+  
+  .reserva-item {
+    box-sizing: border-box;
+    margin: 20px 10px;
+  }
+  
+  .reserva-item .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 10px;
+  }
+  
+  .reserva-item span {
+    height: 25px;
+    font-size: 15px;
+    color: black;
+    font-weight: normal;
+    display: block;
+  }
+  
+  .reserva-item .iconDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-color: #1A263F;
+    width: 40px;
+    border-radius: 10px;
+  }
+  
+  .reserva-item .icono {
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+  .reserva-list-container {
+    padding: 20px;
+  }
+  
+  .reserva-list-container h1 {
+    margin-bottom: 20px;
+  }
+  
+  .new-reserva-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: #2A3A5F; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.5s ease; 
+  }
+  
+  .new-reserva-button:hover {
+    background-color: #0f1a30; 
+  }
+  
