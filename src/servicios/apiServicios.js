@@ -100,16 +100,6 @@ const apiService = {
     }
   },
 
-  getTiposPropiedad: async () => {
-    try {
-      const response = await apiClient.get('/tipos_propiedad');
-      return response.data.data;
-    } catch (error) {
-      console.error('Error fetching tipos_propiedad:', error);
-      throw error;
-    }
-  },
-
   getInquilinos: async () => {
     try {
       const response = await apiClient.get('/inquilinos');
