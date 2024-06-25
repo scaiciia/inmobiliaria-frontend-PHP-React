@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FooterComponent from "../../components/footerComponent";
 import HeaderComponent from "../../components/headerComponent";
 import useReservas from '../../hooks/useReservas';
 import ReservaItem from '../../components/reserva/reservaItem';
@@ -68,7 +67,6 @@ function ReservaPage() {
           ))}
         </ul>
       </div>
-      <FooterComponent />
       {modalOpen && (
         <EditarReserva
           reserva={selectedReserva}
