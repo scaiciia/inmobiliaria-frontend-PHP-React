@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import FooterComponent from './components/footerComponent';
+import HeaderComponent from './components/headerComponent';
 import AppRoutes from './routes'; // Importa las rutas
 import "./assets/styles/components/footerComponent.css"
 import './assets/styles/global.css';
@@ -13,6 +14,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <NavBar />
+      <HeaderComponent />
       <AppRoutes /> 
       <FooterComponent/>
     </BrowserRouter>

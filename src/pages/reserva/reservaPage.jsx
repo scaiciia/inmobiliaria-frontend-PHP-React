@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HeaderComponent from "../../components/headerComponent";
 import useReservas from '../../hooks/useReservas';
 import ReservaItem from '../../components/reserva/reservaItem';
 import EditarReserva from './EditarReserva.jsx';
@@ -49,7 +48,6 @@ function ReservaPage() {
 
   return (
     <>
-      <HeaderComponent />
       <div className="reserva-list-container">
         <h1>Reservas</h1>
         <button onClick={handleCrearNuevaReserva} className="new-reserva-button">
