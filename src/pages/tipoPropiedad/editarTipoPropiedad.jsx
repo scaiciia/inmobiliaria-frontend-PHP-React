@@ -21,8 +21,7 @@ const validationSchema = Yup.object().shape({
       const fetchData = async () => {
         try {
           const response = await apiService.getTipoPropiedad(id);
-          console.log('response',response);
-          setInitialValues({ nombre: response.nombre }); // Precargar datos aquí
+          setInitialValues({ nombre: response.nombre }); 
           setLoading(false);
         } catch (error) {
           toast.error('Error fetching tipo de propiedad');
