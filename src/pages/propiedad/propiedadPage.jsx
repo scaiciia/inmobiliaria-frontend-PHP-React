@@ -89,7 +89,6 @@ function PropiedadPage() {
         }).toString();
         setLoading(true);
         const url = `http://localhost:80/propiedades?${datosEnviar}`;
-        // Enviar los datos al servidor
         fetch(url, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'}

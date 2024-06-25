@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { validationSchema } from '../../validations/validationSchema'; // Ajusta la ruta según tu estructura de carpetas
+import { validationSchema } from '../../validations/validationSchema'; 
 import apiService from '../../servicios/apiServicios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

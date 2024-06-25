@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import FooterComponent from './components/footerComponent';
 import HeaderComponent from './components/headerComponent';
-import AppRoutes from './routes'; // Importa las rutas
+import AppRoutes from './routes'; 
 import "./assets/styles/components/footerComponent.css"
 import './assets/styles/global.css';
 import reportWebVitals from './reportWebVitals';

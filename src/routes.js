@@ -1,4 +1,3 @@
-// src/routes.js
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import PropiedadPage from './pages/propiedad/propiedadPage';
