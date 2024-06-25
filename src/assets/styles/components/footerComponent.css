@@ -2,15 +2,16 @@ footer {
     background-color: #1A263F;
     position: relative;
     bottom: 0;
+    width: 100%;
     display: flex;
-    align-content: end;
     justify-content: center;
     align-items: center;
+    padding: 10px 0;
 }
 
-span {
+footer span {
     font-size: 25px;
-    font-weight:bold;
+    font-weight: bold;
     margin-left: 10px;
     color: white;
 }

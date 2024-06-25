@@ -165,7 +165,6 @@ function PropiedadPage() {
 
     return ( 
         <div>
-            <HeaderComponent></HeaderComponent>
             <main>
                 <h1>Propiedades</h1>
                 <h3>Filtros</h3>
@@ -211,7 +210,6 @@ function PropiedadPage() {
                 </div>
                 <DetailPropiedad show={show} onClose={cerrarDetalles}></DetailPropiedad>
             </main>
-            <FooterComponent></FooterComponent>
         </div>
      );
 }
