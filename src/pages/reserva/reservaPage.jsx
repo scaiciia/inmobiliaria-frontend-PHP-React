@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useReservas from '../../hooks/useReservas';
 import ReservaItem from '../../components/reserva/reservaItem';
 import EditarReserva from './EditarReserva.jsx';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/components/reserva/reservaPage.css';
 
