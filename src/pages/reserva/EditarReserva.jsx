@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { validationSchema } from '../../validations/validationSchema';
+import { reservaSchema } from '../../validations/validationSchema';
 import './editarReserva.css';
 
 function EditarReserva({ reserva, propiedades, inquilinos, isOpen, onClose, onSave, editarReserva }) {
@@ -26,7 +26,7 @@ function EditarReserva({ reserva, propiedades, inquilinos, isOpen, onClose, onSa
         <h2>Editar Reservación</h2>
         <Formik
           initialValues={initialValues}
-          validationSchema={validationSchema}
+          validationSchema={reservaSchema}
           onSubmit={handleSubmit}
           enableReinitialize
         >

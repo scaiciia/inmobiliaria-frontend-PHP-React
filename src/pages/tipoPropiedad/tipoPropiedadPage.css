@@ -1,18 +1,15 @@
-/* Contenedor principal de la página */
 .tipo-propiedad-container {
     padding: 20px;
     height: 100%;
     margin: 0 auto;
   }
   
-  /* Estilo para el título */
   .tipo-propiedad-container h1 {
     margin-bottom: 20px;
-    color: #333; /* Color del texto del título */
+    color: #333; 
     text-align: center;
   }
   
-  /* Botón para crear nuevo tipo de propiedad */
   .new-tipo-propiedad-button {
     display: inline-block;
     padding: 8px 16px;
@@ -32,17 +29,15 @@
     transition: background-color 0.3s ease;
   }
   
-  /* Contenedor de la lista de tipos de propiedad */
   .tipo-propiedad-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* Espacio entre los items */
+    gap: 10px; 
     padding: 0;
     list-style-type: none;
     justify-content: center;
   }
   
-  /* Estilo para cada item de tipo de propiedad */
   .tipo-propiedad-item {
     display: flex;
     flex-direction: row;
@@ -62,12 +57,11 @@
   }
   
   .tipo-propiedad-item span {
-    color: #000; /* Color del texto */
-    margin-bottom: 8px; /* Espacio entre las líneas de texto */
+    color: #000; 
+    margin-bottom: 8px;
     font-size: 14px;
   }
   
-  /* Estilo para el contenedor de los iconos */
   .tipo-propiedad-item .iconDiv {
     display: flex;
     flex-direction: column;

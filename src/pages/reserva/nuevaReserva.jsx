@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { validationSchema } from '../../validations/validationSchema'; 
+import { reservaSchema } from '../../validations/validationSchema'; 
 import apiService from '../../servicios/apiServicios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -50,7 +50,7 @@ const NuevaReserva = () => {
           cantidad_noches: '',
           valor_total: ''
         }}
-        validationSchema={validationSchema}
+        validationSchema={reservaSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
