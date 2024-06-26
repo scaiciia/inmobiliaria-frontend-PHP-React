@@ -31,12 +31,6 @@ function ReservaPage() {
     const confirmar = window.confirm("¿Está seguro de que desea eliminar esta reserva?");
     if (confirmar) {
       eliminarReserva(id)
-        .then(() => {
-          toast.success('Reserva eliminada con éxito');
-        })
-        .catch((error) => {
-          toast.error('No se pudo eliminar la reserva');
-        });
     }
   };
 
