@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useReservas from '../../hooks/useReservas';
 import ReservaItem from '../../components/reserva/reservaItem';
 import EditarReserva from './EditarReserva.jsx';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/components/reserva/reservaPage.css';
 
@@ -31,12 +31,6 @@ function ReservaPage() {
     const confirmar = window.confirm("¿Está seguro de que desea eliminar esta reserva?");
     if (confirmar) {
       eliminarReserva(id)
-        .then(() => {
-          toast.success('Reserva eliminada con éxito');
-        })
-        .catch((error) => {
-          toast.error('No se pudo eliminar la reserva');
-        });
     }
   };
 

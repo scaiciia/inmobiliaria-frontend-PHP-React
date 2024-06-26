@@ -5,10 +5,12 @@ import apiService from '../../servicios/apiServicios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../../assets/styles/pages/reserva/nuevaReserva.css'; 
+import { useNavigate } from 'react-router-dom';
 
 const NuevaReserva = () => {
   const [propiedades, setPropiedades] = useState([]);
   const [inquilinos, setInquilinos] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +33,10 @@ const NuevaReserva = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await apiService.createReserva(values);
-      toast.success(response.message || 'Reserva creada con éxito');
+      toast.success(response.message + " sera redirigido a la pagina de reservas" || '  Reserva creada con éxito te redirigiremos a la pantalla de reservas');
+      setTimeout(() => {
+        navigate('/reservas'); 
+      }, 3000); 
     } catch (error) {
       toast.error('Error creando la reserva');
     } finally {
@@ -91,12 +96,6 @@ const NuevaReserva = () => {
               <label htmlFor="cantidad_noches">Cantidad de Noches:</label>
               <Field type="number" name="cantidad_noches" />
               <ErrorMessage name="cantidad_noches" component="div" className="error" />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="valor_total">Valor Total:</label>
-              <Field type="number" name="valor_total" />
-              <ErrorMessage name="valor_total" component="div" className="error" />
             </div>
 
             <button type="submit" disabled={isSubmitting}>Crear Reserva</button>
