@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { tipoPropiedadSchema } from '../../validations/validationSchema';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiService from '../../servicios/apiServicios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './editarTipoPropiedad.css';
 
-const validationSchema = Yup.object().shape({
-    nombre: Yup.string().required('El nombre es requerido')
-  });
+
   
   const EditarTipoPropiedad = () => {
     const navigate = useNavigate();
@@ -57,7 +55,7 @@ const validationSchema = Yup.object().shape({
         <h1>Editar Tipo de Propiedad</h1>
         <Formik
           initialValues={initialValues}
-          validationSchema={validationSchema}
+          validationSchema={tipoPropiedadSchema}
           onSubmit={handleSubmit}
           enableReinitialize
         >
