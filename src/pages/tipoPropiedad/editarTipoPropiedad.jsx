@@ -18,15 +18,19 @@ import './editarTipoPropiedad.css';
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await apiService.getTipoPropiedad(id);
-          setInitialValues({ nombre: response.nombre }); 
+          const response = await apiService.getTiposPropiedad();
+          const tipoPropiedad = response.find(item => item.id === parseInt(id));
+        if (tipoPropiedad) {
+          setInitialValues({ nombre: tipoPropiedad.nombre });
+        } else {
+          toast.error('Tipo de propiedad no encontrado');
+        }
           setLoading(false);
         } catch (error) {
           toast.error('Error fetching tipo de propiedad');
           setLoading(false);
         }
       };
-  
       fetchData();
     }, [id]);
   
@@ -42,6 +46,7 @@ import './editarTipoPropiedad.css';
           toast.error(response.message || 'Error al actualizar el tipo de propiedad');
         }
       } catch (error) {
+        console.log("error",error);
         toast.error('Error al actualizar el tipo de propiedad');
       } finally {
         setSubmitting(false);
@@ -59,10 +64,10 @@ import './editarTipoPropiedad.css';
           onSubmit={handleSubmit}
           enableReinitialize
         >
-          {({ isSubmitting, values }) => (
+          {({ isSubmitting }) => (
             <Form>
               <label htmlFor="nombre">Nombre</label>
-              <Field type="text" name="nombre" value={values.nombre} />
+              <Field type="text" name="nombre" />
               <ErrorMessage name="nombre" component="div" className="error" />
   
               <button type="submit" disabled={isSubmitting}>
