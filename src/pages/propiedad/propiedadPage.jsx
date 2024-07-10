@@ -43,6 +43,7 @@ function PropiedadPage() {
     const [actualizar, setActualizar] = useState(false);
     const [propiedadAux, setPropiedadAux] = useState(initialData);
     const [error, setError] = useState();
+    const [errorV, setErrorV] = useState({});
 
     const actualizarLista = async () => {
             try {
@@ -146,6 +147,7 @@ function PropiedadPage() {
                 }
 
                 setEditShow(false);
+
                 setActualizar(true);
                 console.log(response);
             } catch (error) {
@@ -213,6 +215,7 @@ function PropiedadPage() {
             imagen: '',
             tipo_imagen: ''
         });
+        setErrorV({});
         setEditShow(true);
     }
 
@@ -223,6 +226,7 @@ function PropiedadPage() {
             localidad_id: data[id-1].localidad_id.id,
             tipo_propiedad_id: data[id-1].tipo_propiedad_id.id
         });
+        setErrorV({});
         setEditShow(true);
     }
 
@@ -300,7 +304,7 @@ function PropiedadPage() {
                     }
                 </div>
                 <ModalsComponent show={viewShow} onClose={cerrarVentana} children={<DetailPropiedad item={propiedad} />}></ModalsComponent>
-                <ModalsComponent show={editShow} onClose={cerrarVentana} children={<FormPropiedad item={propiedadAux} setItem={setPropiedadAux} handleGuardar={handleGuardar} onClose={cerrarVentana} />}></ModalsComponent>
+                <ModalsComponent show={editShow} onClose={cerrarVentana} children={<FormPropiedad item={propiedadAux} setItem={setPropiedadAux} handleGuardar={handleGuardar} onClose={cerrarVentana} errorV={errorV} setErrorV={setErrorV} />}></ModalsComponent>
             </main>
             <FooterComponent></FooterComponent>
         </div>

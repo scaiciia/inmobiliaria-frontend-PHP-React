@@ -10,7 +10,7 @@ function FormPropiedad(props) {
     const [localidades, setLocalidades] = useState([]);
     const [tipoPropiedades, setTipoPropiedades] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [errorV, setErrorV] = useState({});
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,12 +31,8 @@ function FormPropiedad(props) {
         fetchData();
     }, []);
 
-    useEffect (() => {
-        setErrorV({});
-    }, [props.item])
-
-    const validarCampos = (errorV, name, value, type, required) => {
-        let message = {...errorV};
+    const validarCampos = (name, value, type, required) => {
+        let message = {...props.errorV};
         if (value) {
             if (type === 'number') {
                 if (!EsNumero(value)) {
@@ -47,10 +43,10 @@ function FormPropiedad(props) {
             } else if (type === 'text') {
                 if (!(esStringValido(value))) {
                     message = {...message, [name] : 'No estan permitidos caracteres especiales'};
-                    console.log(message);
                 } else {
                     delete message[name];
                 }
+                
             } else if (type === 'date') {
                 if (!validarFecha(value)) {
                     message = {...message, [name] : 'Fecha invalida'};
@@ -66,7 +62,7 @@ function FormPropiedad(props) {
 
     const handleChange = (e) => {
         const { name, value, type, checked, required } = e.target;
-        setErrorV(validarCampos(errorV, name, value, type, required));
+        props.setErrorV(validarCampos(name, value, type, required));
         props.setItem({
             ...props.item,
             [name]: type === 'checkbox' ? checked : value,
@@ -92,19 +88,18 @@ function FormPropiedad(props) {
 
     const handleGuardar = () => {
         const formData = formRef.current;
-        let newErrors = {...errorV};
-        console.log(newErrors);
+        let newErrors = {...props.errorV};
         for (let element of formData.elements) {
             if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
                 const { name, value, required, type } = element;
 
                 if (name !== 'imagen') {
-                    let error = validarCampos(errorV, name, value, type, required);
+                    let error = validarCampos(name, value, type, required);
                     newErrors = {...newErrors, ...error};
                 }
             }
         }
-        setErrorV(newErrors);
+        props.setErrorV(newErrors);
         if (Object.keys(newErrors).length === 0) {
             props.handleGuardar();
         } else {
@@ -126,7 +121,7 @@ function FormPropiedad(props) {
                     <div>
                         <label htmlFor="domicilio">Domicilio: </label>
                         <input type="text" name="domicilio" id="domicilio" value={props.item.domicilio} onChange={handleChange} required />
-                        {errorV["domicilio"] && <label className="LabelError">{errorV["domicilio"]}</label>}
+                        {props.errorV["domicilio"] && <label className="LabelError">{props.errorV["domicilio"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="localidad_id">Localidad: </label>
@@ -138,7 +133,7 @@ function FormPropiedad(props) {
                                 </option>
                             ))}
                         </select>
-                        {errorV["localidad_id"] && <label className="LabelError">{errorV["localidad_id"]}</label>}
+                        {props.errorV["localidad_id"] && <label className="LabelError">{props.errorV["localidad_id"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="tipo_propiedad_id">Tipo de Propiedad: </label>
@@ -150,7 +145,7 @@ function FormPropiedad(props) {
                                 </option>
                             ))}
                         </select>
-                        {errorV["tipo_propiedad_id"] && <label className="LabelError">{errorV["tipo_propiedad_id"]}</label>}
+                        {props.errorV["tipo_propiedad_id"] && <label className="LabelError">{props.errorV["tipo_propiedad_id"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="cantidad_habitaciones">Cantidad de Habitaciones: </label>
@@ -159,7 +154,7 @@ function FormPropiedad(props) {
                     <div>
                         <label htmlFor="cantidad_huespedes">Cantidad de Huespedes: </label>
                         <input type="number" name="cantidad_huespedes" id="cantidad_huespedes" value={props.item.cantidad_huespedes} onChange={handleChange} required />
-                        {errorV["cantidad_huespedes"] && <label className="LabelError">{errorV["cantidad_huespedes"]}</label>}
+                        {props.errorV["cantidad_huespedes"] && <label className="LabelError">{props.errorV["cantidad_huespedes"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="cantidad_banios">Cantidad de Baños: </label>
@@ -172,12 +167,12 @@ function FormPropiedad(props) {
                     <div>
                         <label htmlFor="valor_noche">Valor por noche: </label>
                         <input type="number" name="valor_noche" id="valor_noche" value={props.item.valor_noche} onChange={handleChange} required />
-                        {errorV["valor_noche"] && <label className="LabelError">{errorV["valor_noche"]}</label>}
+                        {props.errorV["valor_noche"] && <label className="LabelError">{props.errorV["valor_noche"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="cantidad_dias">Cantidad de días: </label>
                         <input type="number" name="cantidad_dias" id="cantidad_dias" value={props.item.cantidad_dias} onChange={handleChange} required />
-                        {errorV["cantidad_dias"] && <label className="LabelError">{errorV["cantidad_dias"]}</label>}
+                        {props.errorV["cantidad_dias"] && <label className="LabelError">{props.errorV["cantidad_dias"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="disponible">Disponible: </label>
@@ -186,7 +181,7 @@ function FormPropiedad(props) {
                     <div>
                         <label htmlFor="fecha_inicio_disponibilidad">Fecha inicio Disponiblididad: </label>
                         <input type="date" name="fecha_inicio_disponibilidad" id="fecha_inicio_disponibilidad" value={props.item.fecha_inicio_disponibilidad} onChange={handleChange} required/>
-                        {errorV["fecha_inicio_disponibilidad"] && <label className="LabelError">{errorV["fecha_inicio_disponibilidad"]}</label>}
+                        {props.errorV["fecha_inicio_disponibilidad"] && <label className="LabelError">{props.errorV["fecha_inicio_disponibilidad"]}</label>}
                     </div>
                     <div className="botones">
                         <input type="button" value="Cancelar" onClick={props.onClose} />
