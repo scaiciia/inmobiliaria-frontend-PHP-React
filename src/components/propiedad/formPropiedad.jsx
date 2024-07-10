@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
-import { EsNumero, esVacio, esStringValido, validarFecha } from "../../utils/validaciones";
+import { useEffect, useRef, useState } from "react";
+import { EsNumero, esStringValido, validarFecha } from "../../utils/validaciones";
 import apiService from '../../servicios/apiServicios';
 import '../../assets/styles/components/propiedad/formPropiedad.css'
 
 function FormPropiedad(props) {
 
+    const formRef = useRef(null);
+
     const [localidades, setLocalidades] = useState([]);
     const [tipoPropiedades, setTipoPropiedades] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState('');
+    const [errorV, setErrorV] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,42 +24,54 @@ function FormPropiedad(props) {
                 setLocalidades(localidadesData);
                 setLoading(false);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                window.alert('Error fetching data:', error);
             }
         };
 
         fetchData();
     }, []);
 
-    const handleChange = (e) => {
-        setMessage('');
-        const { name, value, type, checked, required } = e.target;
-        try {
+    useEffect (() => {
+        setErrorV({});
+    }, [props.item])
+
+    const validarCampos = (errorV, name, value, type, required) => {
+        let message = {...errorV};
+        if (value) {
             if (type === 'number') {
                 if (!EsNumero(value)) {
-                    throw new Error('Debe ingresar un número');
+                    message = {...message, [name] : 'Debe ingresar un número'};
+                } else {
+                    delete message[name];
                 }
             } else if (type === 'text') {
-                if (!esStringValido(value)) {
-                    throw new Error('No estan permitidos caracteres especiales');
+                if (!(esStringValido(value))) {
+                    message = {...message, [name] : 'No estan permitidos caracteres especiales'};
+                    console.log(message);
+                } else {
+                    delete message[name];
                 }
             } else if (type === 'date') {
                 if (!validarFecha(value)) {
-                    return window.alert('Fecha invalida');
+                    message = {...message, [name] : 'Fecha invalida'};
+                } else {
+                    delete message[name];
                 }
             }
-            if (required) {
-                if (esVacio(value)) {
-                    throw new Error('Hay campo obligatorio sin completar');
-                }
-            }
-            props.setItem({
-                ...props.item,
-                [name]: type === 'checkbox' ? checked : value,
-            });
-        } catch (Error) {
-            setMessage(Error);
+        } else if (required) {
+            message = {...message, [name] : 'Campo oligatorio'};
         }
+        return message;
+    }
+
+    const handleChange = (e) => {
+        const { name, value, type, checked, required } = e.target;
+        setErrorV(validarCampos(errorV, name, value, type, required));
+        console.log(errorV);
+        props.setItem({
+            ...props.item,
+            [name]: type === 'checkbox' ? checked : value,
+        });
     }
 
     const handleFileChange = (e) => {
@@ -65,33 +79,47 @@ function FormPropiedad(props) {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                const base64String = reader.result;
-                const [metadata, base64Data] = base64String.split(',');
-                console.log(metadata);
+                const base64 = reader.result;
+                const parts = base64.match(/^data:image\/([a-z0-9]+);base64,(.+)$/);
                 props.setItem({
                 ...props.item,
-                imagen: base64Data,
-                tipo_imagen: metadata,
+                imagen: parts[2],
+                tipo_imagen: parts[1],
                 });
             };
             reader.readAsDataURL(file);
         }
     };
 
-    useEffect(() => {
-        if (message) {
-            window.alert(message);
-            setMessage('');
+    const handleGuardar = () => {
+        const formData = formRef.current;
+        let newErrors = {...errorV};
+        console.log(newErrors);
+        for (let element of formData.elements) {
+            if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+                const { name, value, required, type } = element;
+
+                if (name !== 'imagen') {
+                    let error = validarCampos(errorV, name, value, type, required);
+                    newErrors = {...newErrors, ...error};
+                }
+            }
         }
-    }, [message]);
+        setErrorV(newErrors);
+        if (Object.keys(newErrors).length === 0) {
+            props.handleGuardar();
+        } else {
+            window.alert('Hay errores en los datos ingresados');
+        }
+    }
 
 
     return ( 
         <div className="formPropiedad">
             {loading && <p>Cargando...</p>}
-            <form >
+            <form ref={formRef} >
                 <div className="imagen">
-                    <img src={`${props.item.tipo_imagen},${props.item.imagen}`} alt="Sin Imagen" htmlFor="imagen" />
+                    <img src={`data:image/${props.item.tipo_imagen};base64,${props.item.imagen}`} alt="Sin Imagen" htmlFor="imagen" />
                     <input type="file" name="imagen" id="imagen" onChange={handleFileChange}/>
                 </div>
                 <div className='separador'></div>
@@ -99,6 +127,7 @@ function FormPropiedad(props) {
                     <div>
                         <label htmlFor="domicilio">Domicilio: </label>
                         <input type="text" name="domicilio" id="domicilio" value={props.item.domicilio} onChange={handleChange} required />
+                        {errorV["domicilio"] && <label className="LabelError">{errorV["domicilio"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="localidad_id">Localidad: </label>
@@ -110,6 +139,7 @@ function FormPropiedad(props) {
                                 </option>
                             ))}
                         </select>
+                        {errorV["localidad_id"] && <label className="LabelError">{errorV["localidad_id"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="tipo_propiedad_id">Tipo de Propiedad: </label>
@@ -121,6 +151,7 @@ function FormPropiedad(props) {
                                 </option>
                             ))}
                         </select>
+                        {errorV["tipo_propiedad_id"] && <label className="LabelError">{errorV["tipo_propiedad_id"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="cantidad_habitaciones">Cantidad de Habitaciones: </label>
@@ -129,6 +160,7 @@ function FormPropiedad(props) {
                     <div>
                         <label htmlFor="cantidad_huespedes">Cantidad de Huespedes: </label>
                         <input type="number" name="cantidad_huespedes" id="cantidad_huespedes" value={props.item.cantidad_huespedes} onChange={handleChange} required />
+                        {errorV["cantidad_huespedes"] && <label className="LabelError">{errorV["cantidad_huespedes"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="cantidad_banios">Cantidad de Baños: </label>
@@ -136,27 +168,30 @@ function FormPropiedad(props) {
                     </div>
                     <div>
                         <label htmlFor="cochera">Cochera: </label>
-                        <input type="checkbox" name="cochera" id="cochera" value={props.item.cochera} onChange={handleChange}/>
+                        <input type="checkbox" name="cochera" id="cochera" checked={props.item.cochera ? props.item.cochera : 0} onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="valor_noche">Valor por noche: </label>
-                        <input type="number" name="valor_noche" id="valor_noche" value={props.item.valor_noche} onChange={handleChange} requiered />
+                        <input type="number" name="valor_noche" id="valor_noche" value={props.item.valor_noche} onChange={handleChange} required />
+                        {errorV["valor_noche"] && <label className="LabelError">{errorV["valor_noche"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="cantidad_dias">Cantidad de días: </label>
-                        <input type="number" name="cantidad_dias" id="cantidad_dias" value={props.item.cantidad_dias} onChange={handleChange} requiered />
+                        <input type="number" name="cantidad_dias" id="cantidad_dias" value={props.item.cantidad_dias} onChange={handleChange} required />
+                        {errorV["cantidad_dias"] && <label className="LabelError">{errorV["cantidad_dias"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="disponible">Disponible: </label>
-                        <input type="checkbox" name="disponible" id="disponible" value={props.item.disponible} onChange={handleChange}/>
+                        <input type="checkbox" name="disponible" id="disponible" checked={props.item.disponible} onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="fecha_inicio_disponibilidad">Fecha inicio Disponiblididad: </label>
                         <input type="date" name="fecha_inicio_disponibilidad" id="fecha_inicio_disponibilidad" value={props.item.fecha_inicio_disponibilidad} onChange={handleChange} required/>
+                        {errorV["fecha_inicio_disponibilidad"] && <label className="LabelError">{errorV["fecha_inicio_disponibilidad"]}</label>}
                     </div>
                     <div className="botones">
                         <input type="button" value="Cancelar" onClick={props.onClose} />
-                        <input type="button" value="Guardar Cambios" onClick={props.handleGuardar}/>
+                        <input type="button" value="Guardar Cambios" onClick={handleGuardar}/>
                     </div>
                 </div>
             </form>

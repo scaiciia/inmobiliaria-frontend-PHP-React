@@ -60,6 +60,16 @@ const apiService = {
     }
   },
 
+  getPropiedadById: async (id) => {
+    try {
+      const response = await apiClient.get(`/propiedades/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching propiedades:', error);
+      throw error;
+    }
+  },
+
   deletePropiedad: async (id) => {
     try {
       const response = await apiClient.delete(`/propiedades/${id}`);

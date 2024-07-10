@@ -8,7 +8,22 @@ import DetailPropiedad from "./detailPropiedad";
 import ModalsComponent from "../../components/modalsComponent";
 import FormPropiedad from "../../components/propiedad/formPropiedad";
 
-
+const initialData = {
+        id: null,
+        domicilio: '',
+        localidad_id: '',
+        cantidad_habitaciones: '',
+        cantidad_banios: '',
+        cochera: '',
+        cantidad_huespedes: '',
+        fecha_inicio_disponibilidad: '',
+        cantidad_dias: '',
+        disponible: '',
+        valor_noche: '',
+        tipo_propiedad_id: '',
+        imagen: '',
+        tipo_imagen: ''
+    }
 
 function PropiedadPage() {
     
@@ -24,43 +39,12 @@ function PropiedadPage() {
     const [localidades, setLocalidades] = useState([]);
     const [viewShow, setViewShow] = useState(false);
     const [editShow, setEditShow] = useState(false);
-    const [propiedad, setPropiedad] = useState({
-        id: '',
-        domicilio: '',
-        localidad_id: '',
-        cantidad_habitaciones: '',
-        cantidad_banios: '',
-        cochera: '',
-        cantidad_huespedes: '',
-        fecha_inicio_disponibilidad: '',
-        cantidad_dias: '',
-        disponible: '',
-        valor_noche: '',
-        tipo_propiedad_id: '',
-        imagen: '',
-        tipo_imagen: ''
-    });
-
-    const [propiedadAux, setPropiedadAux] = useState({
-        id: null,
-        domicilio: '',
-        localidad_id: '',
-        cantidad_habitaciones: '',
-        cantidad_banios: '',
-        cochera: '',
-        cantidad_huespedes: '',
-        fecha_inicio_disponibilidad: '',
-        cantidad_dias: '',
-        disponible: '',
-        valor_noche: '',
-        tipo_propiedad_id: '',
-        imagen: '',
-        tipo_imagen: ''
-    });
+    const [propiedad, setPropiedad] = useState(initialData);
+    const [actualizar, setActualizar] = useState(false);
+    const [propiedadAux, setPropiedadAux] = useState(initialData);
     const [error, setError] = useState();
 
-    useEffect(() => {
-        const fetchData = async () => {
+    const actualizarLista = async () => {
             try {
                 const [propiedadesData, localidadesData] = await Promise.all([
                     apiService.getPropiedades(),
@@ -74,19 +58,36 @@ function PropiedadPage() {
                 console.error('Error fetching data:', error);
             }
         };
+    
 
-        fetchData();
-    }, []);
+    useEffect(() => {
+        actualizarLista();
+        setActualizar(false);
+    }, [actualizar]);
+
+    useEffect(() => {
+        if (data !== ''){
+            setLoading(false);
+        } else{
+            setLoading(true);
+        }
+    }, [data]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const datosEnviar = new URLSearchParams({
-            disponible: filtro.disponible,
-            localidad_id: filtro.localidad,
-            fecha_inicio_disponibilidad: filtro.fechaInicio,
-            cantidad_huespedes: parseInt(filtro.huespedes)
-        }).toString();
+        const serchParams = new URLSearchParams();
+        serchParams.append("disponible", filtro.disponible);
+        if (filtro.fechaInicio !== '') {
+            serchParams.append("fecha_inicio_disponibilidad", filtro.fechaInicio);
+        }
+        if (filtro.localidad !== '') {
+            serchParams.append("localidad_id", filtro.localidad);
+        }
+        if (filtro.huespedes !== '') {
+            serchParams.append("cantidad_huespedes", parseInt(filtro.huespedes));
+        }
+        const datosEnviar = serchParams.toString();
         setLoading(true);
         const url = `http://localhost:80/propiedades?${datosEnviar}`;
         fetch(url, {
@@ -101,7 +102,7 @@ function PropiedadPage() {
         })
         .then(json => {
             if (json.code === 404) {
-                setData({});
+                setData([]);
                 throw new Error('No hay propiedades');
             } else {
                 setData(json.data);
@@ -118,19 +119,6 @@ function PropiedadPage() {
     }
 
     const handleLimpiarFiltros = () => {
-        const fetchData = async () => {
-            try {
-                const [propiedadesData] = await Promise.all([
-                    apiService.getPropiedades()
-                ]);
-
-                setData(propiedadesData);
-                setError(null);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
 
         setFiltro({
             disponible: false,
@@ -138,8 +126,9 @@ function PropiedadPage() {
             fechaInicio: '',
             huespedes: ''
         });
-        setLoading(true);
-        fetchData();
+        setActualizar(true);
+        setError();
+        console.log(data);
     };
 
     const handleGuardar = async() => {
@@ -158,7 +147,7 @@ function PropiedadPage() {
 
                 console.log(response);
                 setEditShow(false);
-                handleLimpiarFiltros();
+                setActualizar(true);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -184,8 +173,21 @@ function PropiedadPage() {
     }
 
     const mostrarDetalle = (id) => {
-        console.log(data[id-1]);
-        setPropiedad(data[id-1]);
+        const fetchData = async (id) => {
+            try {
+                const [propiedadData] = await Promise.all([
+                    apiService.getPropiedadById(id)
+                ]);
+
+                setPropiedad(propiedadData["message"][0]);
+                setError(null);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData(id);
         setViewShow(true);
     }
 
@@ -221,26 +223,32 @@ function PropiedadPage() {
             localidad_id: data[id-1].localidad_id.id,
             tipo_propiedad_id: data[id-1].tipo_propiedad_id.id
         });
-        console.log(propiedadAux);
         setEditShow(true);
     }
 
     const eliminarProp = (id) => {
         const fetchData = async (datos) => {
             try {
-                const response = await Promise.all([
+                const [response] = await Promise.all([
                     apiService.deletePropiedad(datos)
                 ]);
                 
-                console.log(response);
                 setEditShow(false);
+                const rta = response;
+                console.log(rta);
+                return rta;
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
-        fetchData(id);
-        handleLimpiarFiltros();
+        let rta = window.confirm('Esta seguro de eliminar?');
+        if (rta) {
+            const response = fetchData(id);
+            setActualizar(true);
+            window.alert(response[0]);
+        }
+
     }
 
     return ( 
@@ -283,13 +291,14 @@ function PropiedadPage() {
                     </div>
                 </form>
                 <div className="listaPropiedades">
-                    {loading && <p>Cargando...</p>}
-                    {error ? <p>{error.message}</p> : 
-                    <ul>
-                        {data.map(item => (
-                            <PropiedadItem className='PropiedadItem' item={item} mostrarDetalle={mostrarDetalle} eliminarProp={eliminarProp} editarProp={editarProp} />
-                        ))}
-                    </ul>}
+                    {loading ? <p>Cargando...</p> :
+                        (error ? <p>{error.message}</p> : 
+                        <ul>
+                            {data.map(item => (
+                                <PropiedadItem className='PropiedadItem' key={item.id} item={item} mostrarDetalle={mostrarDetalle} eliminarProp={eliminarProp} editarProp={editarProp} />
+                            ))}
+                        </ul>)
+                    }
                 </div>
                 <ModalsComponent show={viewShow} onClose={cerrarVentana} children={<DetailPropiedad item={propiedad} />}></ModalsComponent>
                 <ModalsComponent show={editShow} onClose={cerrarVentana} children={<FormPropiedad item={propiedadAux} setItem={setPropiedadAux} handleGuardar={handleGuardar} onClose={cerrarVentana} />}></ModalsComponent>
