@@ -19,8 +19,8 @@ const NuevaReserva = () => {
           apiService.getPropiedades(),
           apiService.getInquilinos()
         ]);
-
-        setPropiedades(propiedadesData);
+        const propiedadesDisponibles = propiedadesData.filter(propiedad => propiedad.disponible === 1);
+        setPropiedades(propiedadesDisponibles);
         setInquilinos(inquilinosData);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -33,10 +33,15 @@ const NuevaReserva = () => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await apiService.createReserva(values);
-      toast.success(response.message + " sera redirigido a la pagina de reservas" || '  Reserva creada con éxito te redirigiremos a la pantalla de reservas');
-      setTimeout(() => {
-        navigate('/reservas'); 
-      }, 3000); 
+      console.log('response',response);
+      if (response.code === 201) {
+        toast.success(response.message + " sera redirigido a la pagina de reservas" || '  Reserva creada con éxito te redirigiremos a la pantalla de reservas');
+        setTimeout(() => {
+          navigate('/reservas'); 
+        }, 3000); 
+      } else {
+        toast.error(response.error);
+      }
     } catch (error) {
       toast.error('Error creando la reserva');
     } finally {
