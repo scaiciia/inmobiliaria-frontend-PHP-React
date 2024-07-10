@@ -65,7 +65,7 @@ function FormPropiedad(props) {
         props.setErrorV(validarCampos(name, value, type, required));
         props.setItem({
             ...props.item,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: type === 'checkbox' ? checked : (value < 0 ? 0 : value),
         });
     }
 
@@ -149,16 +149,16 @@ function FormPropiedad(props) {
                     </div>
                     <div>
                         <label htmlFor="cantidad_habitaciones">Cantidad de Habitaciones: </label>
-                        <input type="number" name="cantidad_habitaciones" id="cantidad_habitaciones" value={props.item.cantidad_habitaciones} onChange={handleChange}/>
+                        <input type="number" name="cantidad_habitaciones" id="cantidad_habitaciones" value={props.item.cantidad_habitaciones} min="0" onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="cantidad_huespedes">Cantidad de Huespedes: </label>
-                        <input type="number" name="cantidad_huespedes" id="cantidad_huespedes" value={props.item.cantidad_huespedes} onChange={handleChange} required />
+                        <input type="number" name="cantidad_huespedes" id="cantidad_huespedes" value={props.item.cantidad_huespedes} min="0" onChange={handleChange} required />
                         {props.errorV["cantidad_huespedes"] && <label className="LabelError">{props.errorV["cantidad_huespedes"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="cantidad_banios">Cantidad de Baños: </label>
-                        <input type="number" name="cantidad_banios" id="cantidad_banios" value={props.item.cantidad_banios} onChange={handleChange}/>
+                        <input type="number" name="cantidad_banios" id="cantidad_banios" value={props.item.cantidad_banios} min="0" onChange={handleChange}/>
                     </div>
                     <div>
                         <label htmlFor="cochera">Cochera: </label>
@@ -166,12 +166,12 @@ function FormPropiedad(props) {
                     </div>
                     <div>
                         <label htmlFor="valor_noche">Valor por noche: </label>
-                        <input type="number" name="valor_noche" id="valor_noche" value={props.item.valor_noche} onChange={handleChange} required />
+                        <input type="number" name="valor_noche" id="valor_noche" value={props.item.valor_noche} min="0" onChange={handleChange} required />
                         {props.errorV["valor_noche"] && <label className="LabelError">{props.errorV["valor_noche"]}</label>}
                     </div>
                     <div>
                         <label htmlFor="cantidad_dias">Cantidad de días: </label>
-                        <input type="number" name="cantidad_dias" id="cantidad_dias" value={props.item.cantidad_dias} onChange={handleChange} required />
+                        <input type="number" name="cantidad_dias" id="cantidad_dias" value={props.item.cantidad_dias} min="0" onChange={handleChange} required />
                         {props.errorV["cantidad_dias"] && <label className="LabelError">{props.errorV["cantidad_dias"]}</label>}
                     </div>
                     <div>
@@ -180,7 +180,7 @@ function FormPropiedad(props) {
                     </div>
                     <div>
                         <label htmlFor="fecha_inicio_disponibilidad">Fecha inicio Disponiblididad: </label>
-                        <input type="date" name="fecha_inicio_disponibilidad" id="fecha_inicio_disponibilidad" value={props.item.fecha_inicio_disponibilidad} onChange={handleChange} required/>
+                        <input type="date" name="fecha_inicio_disponibilidad" id="fecha_inicio_disponibilidad" value={props.item.fecha_inicio_disponibilidad || ''} onChange={handleChange} required/>
                         {props.errorV["fecha_inicio_disponibilidad"] && <label className="LabelError">{props.errorV["fecha_inicio_disponibilidad"]}</label>}
                     </div>
                     <div className="botones">
