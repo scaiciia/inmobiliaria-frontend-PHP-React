@@ -21,10 +21,10 @@ const NewTipoPropiedad = () => {
         setTimeout(() => {
           navigate('/tipo-propiedades');
         }, 2000); 
-      } else {
-        toast.error(response.message || 'Error al crear el tipo de propiedad');
-      }
-    } catch (error) {
+      }  else {
+        toast.error(response.error.nombre);
+      } } 
+    catch (error) {
       toast.error('Error al crear el tipo de propiedad');
     } finally {
       setSubmitting(false);

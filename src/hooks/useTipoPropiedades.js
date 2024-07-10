@@ -26,9 +26,14 @@ const useTipoPropiedad = () => {
     const confirmar = window.confirm("¿Está seguro de que desea eliminar este tipo de propiedad?");
     if (confirmar) {
       try {
-        await apiService.deleteTipoPropiedad(id);
-        setTiposPropiedad(tiposPropiedad.filter(tipo => tipo.id !== id));
-        toast.success('Tipo de propiedad eliminado con éxito');
+        const response = await apiService.deleteTipoPropiedad(id);
+        console.log('res delete',response)
+        if (response.code === 400){
+          toast.error(response.error)
+        } else {
+          setTiposPropiedad(tiposPropiedad.filter(tipo => tipo.id !== id));
+          toast.success(response.message);
+        }
       } catch (error) {
         toast.error('No se pudo eliminar el tipo de propiedad');
       }
