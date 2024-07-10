@@ -240,7 +240,7 @@ function PropiedadPage() {
                 setEditShow(false);
                 const rta = response;
                 console.log(rta);
-                return rta;
+                window.alert(rta['message']);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
