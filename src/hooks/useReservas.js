@@ -52,8 +52,12 @@ const useReservas = () => {
   const eliminarReserva = async (id) => {
     try {
       const response = await apiService.deleteReserva(id);
-      if (response.status === 'success' && response.message !== "La reserva no se puede eliminar una vez iniciada la estadía") {
+      console.log('response',response)
+      if (response.status === 'success') {
         setReservas(prevReservas => prevReservas.filter(reserva => reserva.id !== id));
+      }
+      else {
+        toast.error(response.error);
       }
       toast.success(response.message) ;
     } catch (error) {
