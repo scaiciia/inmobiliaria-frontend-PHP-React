@@ -46,7 +46,6 @@ import './editarTipoPropiedad.css';
           toast.error(response.message || 'Error al actualizar el tipo de propiedad');
         }
       } catch (error) {
-        console.log("error",error);
         toast.error('Error al actualizar el tipo de propiedad');
       } finally {
         setSubmitting(false);

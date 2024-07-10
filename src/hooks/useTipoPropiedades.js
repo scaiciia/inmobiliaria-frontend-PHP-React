@@ -27,7 +27,6 @@ const useTipoPropiedad = () => {
     if (confirmar) {
       try {
         const response = await apiService.deleteTipoPropiedad(id);
-        console.log('res delete',response)
         if (response.code === 400){
           toast.error(response.error)
         } else {
