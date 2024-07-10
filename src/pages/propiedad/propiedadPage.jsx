@@ -145,9 +145,9 @@ function PropiedadPage() {
                     ]);
                 }
 
-                console.log(response);
                 setEditShow(false);
                 setActualizar(true);
+                console.log(response);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -244,9 +244,8 @@ function PropiedadPage() {
 
         let rta = window.confirm('Esta seguro de eliminar?');
         if (rta) {
-            const response = fetchData(id);
+            fetchData(id);
             setActualizar(true);
-            window.alert(response[0]);
         }
 
     }

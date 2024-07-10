@@ -67,7 +67,6 @@ function FormPropiedad(props) {
     const handleChange = (e) => {
         const { name, value, type, checked, required } = e.target;
         setErrorV(validarCampos(errorV, name, value, type, required));
-        console.log(errorV);
         props.setItem({
             ...props.item,
             [name]: type === 'checkbox' ? checked : value,
