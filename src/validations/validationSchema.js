@@ -9,4 +9,5 @@ export const reservaSchema = Yup.object().shape({
 
 export const tipoPropiedadSchema = Yup.object().shape({
   nombre: Yup.string().required('El nombre es requerido')
+  .max(50, 'El nombre debe ser menor a 50 caracteres'),
 });
