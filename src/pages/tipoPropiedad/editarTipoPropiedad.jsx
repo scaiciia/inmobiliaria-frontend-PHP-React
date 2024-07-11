@@ -13,7 +13,7 @@ import './editarTipoPropiedad.css';
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState([])
     const [initialValues, setInitialValues] = useState({ nombre: '' });
     const [loading, setLoading] = useState(true);
   
