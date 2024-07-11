@@ -1,7 +1,8 @@
-import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import React, { useState }  from 'react';
+import { Formik, Field, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { tipoPropiedadSchema } from '../../validations/validationSchema';
+//import { tipoPropiedadSchema } from '../../validations/validationSchema';
+import { validateTipoPropiedad } from '../../validations/validations';
 import apiService from '../../servicios/apiServicios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,9 +11,18 @@ import './newTipoPropiedad.css';
 
 
 const NewTipoPropiedad = () => {
+
+    const [errors, setErrors] = useState({});
+
   const navigate = useNavigate();
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    const validationErrors = validateTipoPropiedad(values);
+    if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        setSubmitting(false);
+        return;
+    }
     try {
       const response = await apiService.createTipoPropiedad(values);
       if (response.status === 'success') {
@@ -36,14 +46,15 @@ const NewTipoPropiedad = () => {
       <h1>Crear Nuevo Tipo de Propiedad</h1>
       <Formik
         initialValues={{ nombre: '' }}
-        validationSchema={tipoPropiedadSchema}
+        //validationSchema={tipoPropiedadSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
           <Form>
             <label htmlFor="nombre">Nombre</label>
             <Field type="text" name="nombre" />
-            <ErrorMessage name="nombre" component="div" className="error" />
+            {/*<ErrorMessage name="nombre" component="div" className="error" />*/}
+            {errors.nombre && <div className="error">{errors.nombre}</div>}
             <button type="submit" disabled={isSubmitting}>
               Crear
             </button>

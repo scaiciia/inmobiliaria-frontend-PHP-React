@@ -31,19 +31,15 @@ const useReservas = () => {
   }, []);
 
   const editarReserva = async (id, values, onSave) => {
-    console.log('entro')
     try {
       const response = await apiService.editarReserva(id, values);
-      console.log('response',response)
       if (response.status === 'success') {
         toast.success(response.message);
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000); 
+        onSave(); 
       } else {
         toast.error(response.error || 'Error actualizando la reserva');
       }
-      onSave();
+      
     } catch (error) {
       toast.error('Error actualizando la reserva');
     }
