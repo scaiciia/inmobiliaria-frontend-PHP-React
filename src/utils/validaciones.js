@@ -15,7 +15,7 @@ function EsNumero(variable) {
 }
 
 function esStringValido(variable) {
-    const direccionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
+    const direccionRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ -]*$/;
     return direccionRegex.test(variable);
 }
 

@@ -1,3 +1,15 @@
+# Librerias Externas
+
+    @fortawesome/fontawesome-svg-core
+    @fortawesome/free-brands-svg-icons
+    @fortawesome/free-regular-svg-icons
+    @fortawesome/free-solid-svg-icons
+    @fortawesome/react-fontawesome
+    axios
+    formik
+    yup
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

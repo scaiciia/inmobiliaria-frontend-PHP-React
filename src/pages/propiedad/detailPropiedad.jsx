@@ -4,7 +4,7 @@ function DetailPropiedad({item}) {
     return ( 
         <div className="DetailProp">
             <div className='DetailPropImg'>
-                <img src={item.imagen} alt="Sin Imagen"/>
+                <img src={`data:image/${item.tipo_imagen};base64,${item.imagen}`} alt="Sin Imagen"/>
             </div>
             <div className='separador'></div>
             <div className="Info">
