@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { tipoPropiedadSchema } from '../../validations/validationSchema';
+import { Formik, Field, Form } from 'formik';
+import { validateTipoPropiedad } from '../../validations/validations';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiService from '../../servicios/apiServicios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -12,6 +12,8 @@ import './editarTipoPropiedad.css';
   const EditarTipoPropiedad = () => {
     const navigate = useNavigate();
     const { id } = useParams();
+
+    const [errors, setErrors] = useState({})
     const [initialValues, setInitialValues] = useState({ nombre: '' });
     const [loading, setLoading] = useState(true);
   
@@ -35,6 +37,15 @@ import './editarTipoPropiedad.css';
     }, [id]);
   
     const handleSubmit = async (values, { setSubmitting }) => {
+
+      const validations = validateTipoPropiedad(values);
+
+      if (Object.keys(validations).length > 1) {
+        setErrors(validations);
+        setSubmitting(false);
+        return;
+      }
+
       try {
         const response = await apiService.updateTipoPropiedad(id, values);
         if (response.status === 'success') {
@@ -59,7 +70,7 @@ import './editarTipoPropiedad.css';
         <h1>Editar Tipo de Propiedad</h1>
         <Formik
           initialValues={initialValues}
-          validationSchema={tipoPropiedadSchema}
+          //validationSchema={tipoPropiedadSchema}
           onSubmit={handleSubmit}
           enableReinitialize
         >
@@ -67,8 +78,8 @@ import './editarTipoPropiedad.css';
             <Form>
               <label htmlFor="nombre">Nombre</label>
               <Field type="text" name="nombre" />
-              <ErrorMessage name="nombre" component="div" className="error" />
-  
+              {/*<ErrorMessage name="nombre" component="div" className="error" />*/}
+              {errors && <div name="nombre" component="div" className="error">{errors}</div>}
               <button type="submit" disabled={isSubmitting}>
                 Guardar
               </button>

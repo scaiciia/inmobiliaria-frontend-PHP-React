@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { reservaSchema } from '../../validations/validationSchema'; 
+import { Formik, Field, Form} from 'formik';
 import apiService from '../../servicios/apiServicios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { validateReserva } from '../../validations/validations';
 import '../../assets/styles/pages/reserva/nuevaReserva.css'; 
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ const NuevaReserva = () => {
   const [propiedades, setPropiedades] = useState([]);
   const [inquilinos, setInquilinos] = useState([]);
   const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,8 +20,8 @@ const NuevaReserva = () => {
           apiService.getPropiedades(),
           apiService.getInquilinos()
         ]);
-
-        setPropiedades(propiedadesData);
+        const propiedadesDisponibles = propiedadesData.filter(propiedad => propiedad.disponible === 1);
+        setPropiedades(propiedadesDisponibles);
         setInquilinos(inquilinosData);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -31,12 +32,26 @@ const NuevaReserva = () => {
   }, []);
 
   const handleSubmit = async (values, { setSubmitting }) => {
+
+    const validations = validateReserva(values);
+
+    if (Object.keys(validations).length > 1) {
+      setErrors(validations);
+      setSubmitting(false);
+      return;
+    }
+
     try {
       const response = await apiService.createReserva(values);
-      toast.success(response.message + " sera redirigido a la pagina de reservas" || '  Reserva creada con éxito te redirigiremos a la pantalla de reservas');
-      setTimeout(() => {
-        navigate('/reservas'); 
-      }, 3000); 
+      console.log('response',response);
+      if (response.code === 201) {
+        toast.success(response.message + " sera redirigido a la pagina de reservas" || '  Reserva creada con éxito te redirigiremos a la pantalla de reservas');
+        setTimeout(() => {
+          navigate('/reservas'); 
+        }, 3000); 
+      } else {
+        toast.error(response.error);
+      }
     } catch (error) {
       toast.error('Error creando la reserva');
     } finally {
@@ -55,7 +70,7 @@ const NuevaReserva = () => {
           cantidad_noches: '',
           valor_total: ''
         }}
-        validationSchema={reservaSchema}
+        // validationSchema={reservaSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
@@ -70,7 +85,8 @@ const NuevaReserva = () => {
                   </option>
                 ))}
               </Field>
-              <ErrorMessage name="propiedad_id" component="div" className="error" />
+              {/*<ErrorMessage name="propiedad_id" component="div" className="error" />*/}
+              {errors.propiedad_id && <div name="nombre" className="error">{errors.propiedad_id}</div>}
             </div>
 
             <div className="form-group">
@@ -83,19 +99,23 @@ const NuevaReserva = () => {
                   </option>
                 ))}
               </Field>
-              <ErrorMessage name="inquilino_id" component="div" className="error" />
+              {/*<ErrorMessage name="inquilino_id" component="div" className="error" />*/}
+              {errors.inquilino_id && <div name="nombre" className="error">{errors.inquilino_id}</div>}
             </div>
 
             <div className="form-group">
               <label htmlFor="fecha_desde">Fecha Desde:</label>
               <Field type="date" name="fecha_desde" />
-              <ErrorMessage name="fecha_desde" component="div" className="error" />
+              {/*<ErrorMessage name="fecha_desde" component="div" className="error" />*/}
+              {errors.fecha_desde && <div name="nombre" className="error">{errors.fecha_desde}</div>}
             </div>
 
             <div className="form-group">
               <label htmlFor="cantidad_noches">Cantidad de Noches:</label>
               <Field type="number" name="cantidad_noches" />
-              <ErrorMessage name="cantidad_noches" component="div" className="error" />
+              {/*<ErrorMessage name="cantidad_noches" component="div" className="error" />*/}
+              {errors.cantidad_noches && <div name="nombre" className="error">{errors.cantidad_noches}</div>}
+
             </div>
 
             <button type="submit" disabled={isSubmitting}>Crear Reserva</button>

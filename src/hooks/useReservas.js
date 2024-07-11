@@ -35,13 +35,11 @@ const useReservas = () => {
       const response = await apiService.editarReserva(id, values);
       if (response.status === 'success') {
         toast.success(response.message);
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000); 
+        onSave(); 
       } else {
-        toast.error(response.message || 'Error actualizando la reserva');
+        toast.error(response.error || 'Error actualizando la reserva');
       }
-      onSave();
+      
     } catch (error) {
       toast.error('Error actualizando la reserva');
     }
@@ -50,8 +48,12 @@ const useReservas = () => {
   const eliminarReserva = async (id) => {
     try {
       const response = await apiService.deleteReserva(id);
-      if (response.status === 'success' && response.message !== "La reserva no se puede eliminar una vez iniciada la estadía") {
+      console.log('response',response)
+      if (response.status === 'success') {
         setReservas(prevReservas => prevReservas.filter(reserva => reserva.id !== id));
+      }
+      else {
+        toast.error(response.error);
       }
       toast.success(response.message) ;
     } catch (error) {
